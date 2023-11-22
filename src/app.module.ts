@@ -6,6 +6,8 @@ import configuration from '../config';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProjectModule } from './modules/project/project.module';
+import { TaskModule } from './modules/task/task.module';
+import { SectionModule } from './modules/section/section.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { ProjectModule } from './modules/project/project.module';
     }),
     AuthModule,
     ProjectModule,
+    SectionModule,
+    TaskModule,
     UserModule,
   ],
 })

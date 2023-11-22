@@ -23,8 +23,6 @@ import {
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
-import { PaginationDto } from '../../infra/shared/dto';
-import { Route } from '../../infra/shared/decorators/route.decorator';
 import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('User')
@@ -38,8 +36,8 @@ export class UserController {
     description: 'The users were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Route() route: string, @Query() query: PaginationDto) {
-    return await this.userService.getAll({ ...query, route });
+  async getData() {
+    return await this.userService.getAll();
   }
 
   @Get('/:id')

@@ -1,25 +1,17 @@
 import {
   NotFoundException,
   Injectable,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
-  DataSource,
   FindOptionsWhere,
-  EntityManager,
   Repository,
 } from 'typeorm';
-import {
-  IPaginationOptions,
-  Pagination,
-  paginate,
-} from 'nestjs-typeorm-paginate';
+
 
 import { User } from './user.entity';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { hashPassword } from 'src/infra/helpers';
-import { UserRoleEnum } from '../../infra/shared/enum';
 
 Injectable();
 export class UserService {
@@ -28,16 +20,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async getAll(
-    options: IPaginationOptions,
-    where?: FindOptionsWhere<User>,
-  ): Promise<Pagination<User>> {
-    return paginate<User>(this.userRepository, options, {
-      order: {
-        firstName: 'ASC',
-      },
-      relations: {},
-    });
+  async getAll() {
+    return await this.userRepository.find();
   }
 
   async getByLogin(login: string) {
