@@ -40,12 +40,25 @@ export class TaskService {
   }
 
   async change(value: UpdateTaskDto, id: string) {
-    const response = await this.taskRepository.update({ id }, value);
+    const response = await this.taskRepository
+      .createQueryBuilder()
+      .update()
+      .set(value as unknown as Task)
+      .where('id = :id', { id })
+      .execute();
+
     return response;
   }
 
   async create(value: CreateTaskDto) {
-    const data = this.taskRepository.create(value);
-    return await this.taskRepository.save(data);
+    const data = await this.taskRepository
+      .createQueryBuilder()
+      .insert()
+      .into(Task)
+      .values(value as unknown as Task)
+      .returning('id')
+      .execute();
+
+    return await this.getOne(data.raw[0].id);
   }
 }
