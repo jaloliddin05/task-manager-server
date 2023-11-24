@@ -4,12 +4,10 @@ import {
   Body,
   HttpCode,
   HttpStatus,
-  HttpException,
   Delete,
   Patch,
   Param,
   Get,
-  Query,
   Req,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
@@ -40,13 +38,23 @@ export class UserController {
     return await this.userService.getAll();
   }
 
+  @Get('/me')
+  @ApiOperation({ summary: 'Method: returns current user' })
+  @ApiOkResponse({
+    description: 'The user was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getMe(@Req() req) {
+    return await this.userService.getOne(req.user.id);
+  }
+
   @Get('/:id')
   @ApiOperation({ summary: 'Method: returns single user by id' })
   @ApiOkResponse({
     description: 'The user was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<User> {
+  async getOne(@Param('id') id: string): Promise<User> {
     return this.userService.getOne(id);
   }
 

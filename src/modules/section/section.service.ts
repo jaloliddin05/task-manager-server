@@ -45,7 +45,14 @@ export class SectionService {
   }
 
   async create(value: CreateSectionDto) {
-    const data = this.sectionRepository.create(value);
-    return await this.sectionRepository.save(data);
+    const data = await this.sectionRepository
+    .createQueryBuilder()
+    .insert()
+    .into(Section)
+    .values(value as unknown as Section)
+    .returning('id')
+    .execute()
+
+    return await this.getOne(data.raw[0].id)
   }
 }
