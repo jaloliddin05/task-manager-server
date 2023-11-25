@@ -16,7 +16,7 @@ export class Task {
   @Column('varchar')
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text',nullable: true })
   description: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

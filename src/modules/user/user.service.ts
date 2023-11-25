@@ -44,6 +44,18 @@ export class UserService {
     return data;
   }
 
+  async getById(id: string) {
+    const data = await this.userRepository
+      .findOne({
+        where: { id },
+      })
+      .catch(() => {
+        throw new NotFoundException('data not found');
+      });
+
+    return data;
+  }
+
   async deleteOne(id: string) {
     const response = await this.userRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');

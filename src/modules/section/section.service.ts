@@ -16,7 +16,7 @@ export class SectionService {
     return await this.sectionRepository.find({
       order: {
         title: 'ASC',
-      },
+      }
     });
   }
 

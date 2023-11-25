@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Req,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -52,8 +53,8 @@ export class TaskController {
     description: 'The task was created successfully',
   })
   @HttpCode(HttpStatus.CREATED)
-  async saveData(@Body() data: CreateTaskDto): Promise<Task> {
-    return await this.taskService.create(data);
+  async saveData(@Body() data: CreateTaskDto, @Req() req): Promise<Task> {
+    return await this.taskService.create(data, req.user.id);
   }
 
   @Patch('/:id')

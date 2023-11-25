@@ -50,12 +50,12 @@ export class TaskService {
     return response;
   }
 
-  async create(value: CreateTaskDto) {
+  async create(value: CreateTaskDto,creator:string) {
     const data = await this.taskRepository
       .createQueryBuilder()
       .insert()
       .into(Task)
-      .values(value as unknown as Task)
+      .values({...value,creator} as unknown as Task)
       .returning('id')
       .execute();
 

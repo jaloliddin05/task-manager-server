@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Req,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -36,6 +37,16 @@ export class ProjectController {
     return this.projectService.getAll();
   }
 
+  @Get('/my-projects')
+  @ApiOperation({ summary: 'Method: returns my projects' })
+  @ApiOkResponse({
+    description: 'The project was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getMyProjects(@Req() req): Promise<Project[]> {
+    return this.projectService.getMyProjects(req.user.id);
+  }
+
   @Get('/:id')
   @ApiOperation({ summary: 'Method: returns single project by id' })
   @ApiOkResponse({
@@ -52,8 +63,8 @@ export class ProjectController {
     description: 'The project was created successfully',
   })
   @HttpCode(HttpStatus.CREATED)
-  async saveData(@Body() data: CreateProjectDto): Promise<Project> {
-    return await this.projectService.create(data);
+  async saveData(@Body() data: CreateProjectDto, @Req() req): Promise<Project> {
+    return await this.projectService.create(data, req.user.id);
   }
 
   @Patch('/:id')
