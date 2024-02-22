@@ -33,6 +33,9 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   phone: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  bone: string;
+
   @Column({ type: 'varchar' })
   password: string;
 
