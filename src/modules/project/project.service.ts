@@ -46,6 +46,8 @@ export class ProjectService {
         throw new NotFoundException('data not found');
       });
 
+    data.sections.sort((a,b)=> a.index - b.index)
+
     return data;
   }
 
